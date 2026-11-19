@@ -1,0 +1,4 @@
+<resources>
+    <string name="module_name">Miuix 应用更新界面</string>
+    <string name="module_description">将 HyperOS 应用更新界面的进度圈和背景换成 Miuix 样式</string>
+</resources>

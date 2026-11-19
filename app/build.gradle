@@ -1,0 +1,51 @@
+plugins {
+    id 'com.android.application' version '9.3.1'
+}
+
+android {
+    namespace 'com.blacksoft.miuixpackageupdate'
+    compileSdk {
+        version = release(37) {
+            minorApiLevel = 0
+        }
+    }
+
+    defaultConfig {
+        applicationId 'com.blacksoft.miuixpackageupdate'
+        minSdk 37
+        targetSdk 37
+        versionCode 11
+        versionName '1.1'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+androidComponents {
+    onVariants(selector().withBuildType('release')) { variant ->
+        def stringsXml = providers.fileContents(layout.projectDirectory.file('src/main/res/values/strings.xml')).asText
+        def appName = stringsXml.map { xml ->
+            new groovy.xml.XmlSlurper().parseText(xml).string.find { it.@name.text() == 'module_name' }.text()
+        }
+        variant.outputs.each { output ->
+            output.outputFileName.set(appName.zip(output.versionName) { name, version ->
+                "${name}_${version}.apk".toString()
+            })
+        }
+    }
+}
+
+dependencies {
+    compileOnly 'io.github.libxposed:api:101.0.1'
+}
