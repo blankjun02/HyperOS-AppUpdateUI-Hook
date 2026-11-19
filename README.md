@@ -12,4 +12,4 @@ LSPosed Modern API 101，模块作用域为系统界面 `com.android.systemui`�
 在酷安前台通过安装器更新酷安，或用原先会触发更新过渡页的流程复现。
 使用 `adb logcat -s MiuixPackageUpdate` 查看 Hook 与样式应用状态。
 
-##⚠️：仅限安卓17使用，且仅在小米17ProMax 4.0.6.0官方包测试正常，其他版本谨慎使用
+## ⚠️：仅限安卓17使用，且仅在小米17ProMax 4.0.6.0官方包测试正常，其他版本谨慎使用
