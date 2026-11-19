@@ -1,4 +1,17 @@
 <resources>
-    <string name="module_name">Miuix 应用更新界面</string>
-    <string name="module_description">将 HyperOS 应用更新界面的进度圈和背景换成 Miuix 样式</string>
+    <string name="module_name">Miuix Ӧ�ø��½���</string>
+    <string name="module_description">�� HyperOS Ӧ�ø��½���Ľ���Ȧ�ͱ������� Miuix ��ʽ</string>
+    <string name="status_android">Android �汾��%1$s��API %2$d��</string>
+    <string name="status_hyperos_checking">HyperOS ��⣺���ڼ��</string>
+    <string name="status_hyperos_yes">HyperOS ��⣺��</string>
+    <string name="status_hyperos_no">HyperOS ��⣺δ��⵽ HyperOS</string>
+    <string name="status_compatible">ϵͳ����ģ����������</string>
+    <string name="status_incompatible">ϵͳ������Ҫ����Ҫ Android 17 �����ϵ� HyperOS</string>
+    <string name="restart_system_ui">����ϵͳ����</string>
+    <string name="restart_system_ui_confirm">��Ҫ Root ��Ȩ��״̬���͵������������ʧ�������ϵͳ����������</string>
+    <string name="restart_system_ui_action">����</string>
+    <string name="restart_system_ui_working">������������</string>
+    <string name="restart_system_ui_failed">����ʧ�ܣ�����ģ��Ӧ�õ� Root ��Ȩ��</string>
+    <string name="restart_system_ui_timeout">��������ʱ������ Root ��Ȩ�����ԡ�</string>
+    <string name="restart_system_ui_requested">����������ϵͳ���档</string>
 </resources>

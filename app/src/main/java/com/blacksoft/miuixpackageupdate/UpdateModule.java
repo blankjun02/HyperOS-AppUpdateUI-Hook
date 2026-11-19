@@ -26,6 +26,10 @@ public final class UpdateModule extends XposedModule {
             return;
         }
 
+        if (!DeviceCompatibility.hasSupportedAndroidVersion() || !DeviceCompatibility.isHyperOs()) {
+            return;
+        }
+
         try {
             Class<?> activity = Class.forName(UPDATE_ACTIVITY, false, param.getClassLoader());
             Method onCreate = activity.getDeclaredMethod("onCreate", Bundle.class);

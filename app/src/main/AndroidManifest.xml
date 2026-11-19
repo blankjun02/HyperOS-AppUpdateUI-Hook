@@ -2,5 +2,14 @@
     <application
         android:allowBackup="false"
         android:description="@string/module_description"
-        android:label="@string/module_name" />
+        android:label="@string/module_name">
+        <activity
+            android:name=".ModuleSettingsActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
+            </intent-filter>
+        </activity>
+    </application>
 </manifest>
