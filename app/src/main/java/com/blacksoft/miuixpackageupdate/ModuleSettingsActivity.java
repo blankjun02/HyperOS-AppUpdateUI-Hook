@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +58,21 @@ public final class ModuleSettingsActivity extends Activity {
                         ? R.string.status_compatible : R.string.status_incompatible);
             });
         }, "HyperOS-compatibility").start();
+
+        var preferences = ModuleSettingsProvider.preferences(this);
+        Switch freeformUpdates = new Switch(this);
+        freeformUpdates.setText(R.string.freeform_updates);
+        freeformUpdates.setTextSize(16);
+        freeformUpdates.setChecked(preferences.getBoolean(ModuleSettingsProvider.KEY_FREEFORM_UPDATES,
+                ModuleSettingsProvider.DEFAULT_FREEFORM_UPDATES));
+        LinearLayout.LayoutParams switchParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        switchParams.topMargin = dp(24);
+        content.addView(freeformUpdates, switchParams);
+        addText(content, getString(R.string.freeform_updates_summary), 14, 4);
+        freeformUpdates.setOnCheckedChangeListener((view, checked) -> preferences.edit()
+                .putBoolean(ModuleSettingsProvider.KEY_FREEFORM_UPDATES, checked).apply());
+
 
         Button restart = new Button(this);
         restart.setText(R.string.restart_system_ui);

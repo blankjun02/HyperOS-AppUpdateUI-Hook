@@ -1,0 +1,19 @@
+<resources>
+    <string name="module_name">HyperOS App Update Transition Enhancements</string>
+    <string name="module_description">Apply a Miuix-style spinner and background to the HyperOS app update transition.</string>
+    <string name="status_android">Android version: %1$s (API %2$d)</string>
+    <string name="status_hyperos_checking">Checking for HyperOS…</string>
+    <string name="status_hyperos_yes">HyperOS detected</string>
+    <string name="status_hyperos_no">HyperOS was not detected</string>
+    <string name="status_compatible">This system meets the module requirements.</string>
+    <string name="status_incompatible">This module requires HyperOS based on Android 17 or later.</string>
+    <string name="restart_system_ui">Restart System UI</string>
+    <string name="restart_system_ui_confirm">Root access is required. The status and navigation bars will disappear briefly while System UI restarts.</string>
+    <string name="restart_system_ui_action">Restart</string>
+    <string name="restart_system_ui_working">Requesting restart…</string>
+    <string name="restart_system_ui_failed">Restart failed. Check that root access is granted to the module app.</string>
+    <string name="restart_system_ui_timeout">The restart request timed out. Check root access and try again.</string>
+    <string name="restart_system_ui_requested">System UI restart requested.</string>
+    <string name="freeform_updates">Floating window update transition</string>
+    <string name="freeform_updates_summary">Show the transition when an app updates in a floating window. Restart System UI to apply changes.</string>
+</resources>

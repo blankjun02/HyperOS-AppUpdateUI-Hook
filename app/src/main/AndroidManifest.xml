@@ -3,6 +3,11 @@
         android:allowBackup="false"
         android:description="@string/module_description"
         android:label="@string/module_name">
+        <provider
+            android:name=".ModuleSettingsProvider"
+            android:authorities="${applicationId}.settings"
+            android:directBootAware="true"
+            android:exported="true" />
         <activity
             android:name=".ModuleSettingsActivity"
             android:exported="true">

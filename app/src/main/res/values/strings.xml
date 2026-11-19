@@ -1,17 +1,19 @@
 <resources>
-    <string name="module_name">Miuix Ӧ�ø��½���</string>
-    <string name="module_description">�� HyperOS Ӧ�ø��½���Ľ���Ȧ�ͱ������� Miuix ��ʽ</string>
-    <string name="status_android">Android �汾��%1$s��API %2$d��</string>
-    <string name="status_hyperos_checking">HyperOS ��⣺���ڼ��</string>
-    <string name="status_hyperos_yes">HyperOS ��⣺��</string>
-    <string name="status_hyperos_no">HyperOS ��⣺δ��⵽ HyperOS</string>
-    <string name="status_compatible">ϵͳ����ģ����������</string>
-    <string name="status_incompatible">ϵͳ������Ҫ����Ҫ Android 17 �����ϵ� HyperOS</string>
-    <string name="restart_system_ui">����ϵͳ����</string>
-    <string name="restart_system_ui_confirm">��Ҫ Root ��Ȩ��״̬���͵������������ʧ�������ϵͳ����������</string>
-    <string name="restart_system_ui_action">����</string>
-    <string name="restart_system_ui_working">������������</string>
-    <string name="restart_system_ui_failed">����ʧ�ܣ�����ģ��Ӧ�õ� Root ��Ȩ��</string>
-    <string name="restart_system_ui_timeout">��������ʱ������ Root ��Ȩ�����ԡ�</string>
-    <string name="restart_system_ui_requested">����������ϵͳ���档</string>
+    <string name="module_name">HyperOS应用更新过渡优化</string>
+    <string name="module_description">将 HyperOS 应用更新界面的进度圈和背景换成 Miuix 样式</string>
+    <string name="status_android">Android 版本：%1$s（API %2$d）</string>
+    <string name="status_hyperos_checking">HyperOS 检测：正在检测</string>
+    <string name="status_hyperos_yes">HyperOS 检测：是</string>
+    <string name="status_hyperos_no">HyperOS 检测：未检测到 HyperOS</string>
+    <string name="status_compatible">系统符合模块运行条件</string>
+    <string name="status_incompatible">系统不符合要求，需要 Android 17 或以上的 HyperOS</string>
+    <string name="restart_system_ui">重启系统界面</string>
+    <string name="restart_system_ui_confirm">需要 Root 授权。状态栏和导航栏会短暂消失，随后由系统重新启动。</string>
+    <string name="restart_system_ui_action">重启</string>
+    <string name="restart_system_ui_working">正在请求重启</string>
+    <string name="restart_system_ui_failed">重启失败，请检查模块应用的 Root 授权。</string>
+    <string name="restart_system_ui_timeout">重启请求超时，请检查 Root 授权后重试。</string>
+    <string name="restart_system_ui_requested">已请求重启系统界面。</string>
+    <string name="freeform_updates">小窗更新过渡</string>
+    <string name="freeform_updates_summary">应用在小窗中更新时显示过渡页。更改后重启系统界面生效。</string>
 </resources>

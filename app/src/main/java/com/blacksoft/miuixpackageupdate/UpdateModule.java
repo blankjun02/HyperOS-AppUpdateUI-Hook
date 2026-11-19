@@ -1,8 +1,11 @@
 package com.blacksoft.miuixpackageupdate;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.SurfaceControl;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -19,6 +22,8 @@ public final class UpdateModule extends XposedModule {
     private static final String SYSTEM_UI = "com.android.systemui";
     private static final String UPDATE_ACTIVITY =
             "com.android.wm.shell.packageupdate.PackageUpdateActivity";
+
+    private Boolean freeformUpdatesEnabled;
 
     @Override
     public void onPackageReady(PackageReadyParam param) {
@@ -43,10 +48,71 @@ public final class UpdateModule extends XposedModule {
                 return result;
             });
             Log.i(TAG, "PackageUpdateActivity hook installed");
+            hookFreeformPackageUpdates(param.getClassLoader());
         } catch (ReflectiveOperationException | RuntimeException | LinkageError error) {
             Log.e(TAG, "Unable to hook PackageUpdateActivity", error);
         }
     }
+
+    private void hookFreeformPackageUpdates(ClassLoader loader) {
+        try {
+            Class<?> listener = Class.forName("com.android.wm.shell.freeform.FreeformTaskListener", false, loader);
+            Class<?> organizer = Class.forName("com.android.wm.shell.ShellTaskOrganizer", false, loader);
+            Class<?> transaction = Class.forName("android.window.WindowContainerTransaction");
+            Class<?> token = Class.forName("android.window.WindowContainerToken");
+
+            Method appeared = listener.getDeclaredMethod("onTaskAppeared",
+                    ActivityManager.RunningTaskInfo.class, SurfaceControl.class);
+            Method vanished = listener.getDeclaredMethod("onTaskVanished", ActivityManager.RunningTaskInfo.class);
+            Field organizerField = listener.getDeclaredField("mShellTaskOrganizer");
+            organizerField.setAccessible(true);
+            Field contextField = listener.getDeclaredField("mContext");
+            contextField.setAccessible(true);
+            Field tokenField = ActivityManager.RunningTaskInfo.class.getField("token");
+            Method hasParentTask = ActivityManager.RunningTaskInfo.class.getMethod("hasParentTask");
+            Method getActivityType = ActivityManager.RunningTaskInfo.class.getMethod("getActivityType");
+            var newTransaction = transaction.getConstructor();
+            Method setHandleUpdate = transaction.getMethod("setHandlePackageUpdateForRootContainer",
+                    token, boolean.class);
+            Method applyTransaction = organizer.getMethod("applyTransaction", transaction);
+
+            for (Method callback : List.of(appeared, vanished)) {
+                boolean enable = callback == appeared;
+                hook(callback).setExceptionMode(ExceptionMode.PROTECTIVE).intercept(chain -> {
+                    Object result = chain.proceed();
+                    try {
+                        ActivityManager.RunningTaskInfo task = (ActivityManager.RunningTaskInfo) chain.getArg(0);
+                        // Only standard root tasks can own package-update handling.
+                        if ((boolean) hasParentTask.invoke(task) || (int) getActivityType.invoke(task) != 1) {
+                            return result;
+                        }
+                        if (freeformUpdatesEnabled == null) {
+                            Context context = (Context) contextField.get(chain.getThisObject());
+                            Bundle settings = context.getContentResolver().call(ModuleSettingsProvider.URI,
+                                    ModuleSettingsProvider.KEY_FREEFORM_UPDATES, null, null);
+                            if (settings == null) return result;
+                            freeformUpdatesEnabled = settings.getBoolean(ModuleSettingsProvider.KEY_FREEFORM_UPDATES);
+                        }
+                        if (!freeformUpdatesEnabled) return result;
+                        Object taskToken = tokenField.get(task);
+                        if (taskToken == null) return result;
+
+                        Object change = newTransaction.newInstance();
+                        setHandleUpdate.invoke(change, taskToken, enable);
+                        applyTransaction.invoke(organizerField.get(chain.getThisObject()), change);
+                        Log.d(TAG, "Freeform package update handling=" + enable + " task=" + task.taskId);
+                    } catch (ReflectiveOperationException | RuntimeException | LinkageError error) {
+                        Log.w(TAG, "Unable to set freeform package update handling", error);
+                    }
+                    return result;
+                });
+            }
+            Log.i(TAG, "Freeform package update hooks installed");
+        } catch (ReflectiveOperationException | RuntimeException | LinkageError error) {
+            Log.w(TAG, "Freeform package update hooks unavailable", error);
+        }
+    }
+
 
     private static void applyStyle(Activity activity, ClassLoader loader) {
         ViewGroup content = activity.findViewById(android.R.id.content);
